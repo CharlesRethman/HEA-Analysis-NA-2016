@@ -1,7 +1,9 @@
 ﻿-- Remove old index
 DROP INDEX IF EXISTS nam.buffer_20160515_gidx;
+DROP INDEX IF EXISTS nam.demog_eas_gidx;
 -- Recreate it
 CREATE INDEX buffer_20160515_gidx ON nam.buffer_20160515 USING GIST(the_geom);
+CREATE INDEX demog_eas_gidx ON nam.demog_eas USING GIST(the_geom);
 
 
 -- Remove any old table of affected small areas
@@ -174,12 +176,6 @@ INSERT INTO nam.eas_outcome_2016 (
 		nam.tbl_outcomes,
 		(
 		SELECT
-			the_geom
-		FROM
-			nam.buffer_20160515
-		) AS f,
-		(
-		SELECT
 			the_geom,
 			ea_code,
 			nam.demog_eas.region_cod,
@@ -211,14 +207,14 @@ INSERT INTO nam.eas_outcome_2016 (
 --			(nam.demog_eas.lz_code >= 56200 AND nam.demog_eas.lz_code < 56250) OR
 --			(nam.demog_eas.lz_code >= 56300 AND nam.demog_eas.lz_code < 56350))
 	WHERE
-		WHERE ea_code NOT IN (
+		ea_code NOT IN (
 			SELECT
 				ea_code
 			FROM
 				nam.demog_eas,
 				nam.buffer_20160515
 			WHERE
-				ST_Intersects(nam.buffer_20160515.the_geom, nam.demog_eas.the_geom)
+				ST_Intersects(nam.demog_eas.the_geom, nam.buffer_20160515.the_geom)
 		)
 	AND
 		g.lz_code = nam.tbl_outcomes.lz_code
@@ -227,9 +223,31 @@ INSERT INTO nam.eas_outcome_2016 (
 
 ;
 
-COPY nam.eas_outcome_2016 TO '/Users/Charles/Documents/hea_analysis/namibia/2016.05/outcome.csv' WITH ( FORMAT CSV, DELIMITER ',' );
-
-SELECT count(gid) FROM nam.eas_outcome_2016; -- GROUP BY ea_code;
+COPY (
+	SELECT
+		ea_code,
+		region_cod AS region_code,
+		region_nam AS region,
+		constituen AS const_code,
+		constitue1 AS constituency,
+		lz_code || ': ' || lz_name || ' (' || lz_abbrev || ')' AS lz,
+		hazard,
+		wg,
+		soc_sec,
+		pop_size,
+		pop_curr,
+		round(pop_curr * pc_pop * CAST( surv_def > 0.005 AS INTEGER), 0) AS pop_surv,
+		round(pop_curr * pc_pop * CAST( lhood_def > 0.005 AS INTEGER), 0) AS pop_lhood,
+		round(pop_curr * pc_pop * surv_def * 2100 / 3360.0 / 1000, 4) AS maize_eq,
+		round(hh_curr * pc_pop * lhood_def, 0) AS lhood_nad
+	FROM
+		nam.eas_outcome_2016)
+TO
+	'/Users/Charles/Documents/hea_analysis/namibia/2016.05/pop/outcome.csv'
+WITH (
+	FORMAT CSV, DELIMITER ','
+	)
+;
 
 
 SELECT DISTINCT

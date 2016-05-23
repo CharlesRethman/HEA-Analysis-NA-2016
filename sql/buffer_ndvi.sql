@@ -12,7 +12,7 @@ INSERT INTO nam.buffer_20160515 (
   ndvi
   )
   SELECT
-    ST_Multi((ST_Dump(ST_Union(ST_Buffer(g.the_geom, 3600)))).geom),
+    ST_Multi((ST_Dump(ST_Union(ST_Buffer(g.the_geom, 3000)))).geom),
     SUM(g.ndvi) AS ndvi
   FROM (
     SELECT
