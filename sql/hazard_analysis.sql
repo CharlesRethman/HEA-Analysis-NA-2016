@@ -211,7 +211,15 @@ INSERT INTO nam.eas_outcome_2016 (
 --			(nam.demog_eas.lz_code >= 56200 AND nam.demog_eas.lz_code < 56250) OR
 --			(nam.demog_eas.lz_code >= 56300 AND nam.demog_eas.lz_code < 56350))
 	WHERE
-		NOT (ST_Intersects (g.the_geom, f.the_geom))
+		WHERE ea_code NOT IN (
+			SELECT
+				ea_code
+			FROM
+				nam.demog_eas,
+				nam.buffer_20160515
+			WHERE
+				ST_Intersects(nam.buffer_20160515.the_geom, nam.demog_eas.the_geom)
+		)
 	AND
 		g.lz_code = nam.tbl_outcomes.lz_code
 	AND
@@ -228,8 +236,8 @@ SELECT DISTINCT
 	ea_code,
 --	region_cod,
 --	constituen,
-	constitue1,
-	region_nam,
+	constitue1 AS constituency,
+	region_nam AS region,
 	lz_code  AS lz, --|| ': ' || lz_abbrev || ' - ' || lz_name AS lz,
 	hazard,
 	wg,
