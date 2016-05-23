@@ -18,16 +18,25 @@ CREATE TABLE nam.eas_outcome_2016 (
 	-- population
 	pop_size INTEGER,
 	pop_curr NUMERIC,
+	hh_curr NUMERIC,
 	-- livelihood zone code
 	lz_code INTEGER,
 	-- livelihood zone name
 	lz_name VARCHAR(254),
 	-- livelihood zone abbrev
-	lz_abbrev VARCHAR(5)
+	lz_abbrev VARCHAR(5),
+	hazard VARCHAR(20),
+	wg VARCHAR(10),
+	soc_sec INTEGER,
+	pc_pop NUMERIC,
+	lhood_def NUMERIC,
+	surv_def NUMERIC
 	);
 
 
--- insert data into this newly created table
+-- insert the data where the hazard has been worst
+SELECT 'Add in all the hazard data in the worst-case affected area'::text;
+
 INSERT INTO nam.eas_outcome_2016 (
 	the_geom,
 	ea_code,
@@ -37,9 +46,17 @@ INSERT INTO nam.eas_outcome_2016 (
 	region_nam,
 	pop_size,
 	pop_curr,
+	hh_curr,
 	lz_code,
 	lz_name,
-	lz_abbrev)
+	lz_abbrev,
+	hazard,
+	wg,
+	soc_sec,
+	pc_pop,
+	lhood_def,
+	surv_def
+	)
 	-- data comes from nested query combining SAs, SPI data, rural and urban livelihoods tables
 	SELECT
 		g.the_geom,
@@ -50,17 +67,23 @@ INSERT INTO nam.eas_outcome_2016 (
 		region_nam,
 		g.pop_size,
 		g.pop_curr,
-		lz_code,
-		lz_name,
-		lz_abbrev
+		g.hh_curr,
+		g.lz_code,
+		g.lz_name,
+		lz_abbrev,
+		hazard,
+		wg,
+		soc_sec,
+		pc_pop,
+		lhood_def,
+		surv_def
 	FROM
+		nam.tbl_outcomes,
 		(
 		SELECT
-			*
+			the_geom
 		FROM
 			nam.buffer_20160515
-		WHERE
-			ndvi = 301
 		) AS f,
 		(
 		SELECT
@@ -72,6 +95,7 @@ INSERT INTO nam.eas_outcome_2016 (
 			region_nam,
 			nam.demog_eas.pop_size,
 			nam.demog_eas.pop_size * pop_2016 / nam.tbl_pop_proj.pop_size AS pop_curr,
+			nam.demog_eas.hh_size * pop_2016 / nam.tbl_pop_proj.pop_size  AS hh_curr,
 			nam.demog_eas.lz_code AS lz_code,
 			h.lz_name,
 			h.lz_abbrev
@@ -84,33 +108,140 @@ INSERT INTO nam.eas_outcome_2016 (
 		WHERE
 			nam.demog_eas.lz_code = h.lz_code
 		AND
+			nam.demog_eas.lz_code < 56800
+		AND
 			nam.demog_eas.region_cod = nam.tbl_pop_proj.region_cod
 --		AND (
---			nam.demog_eas.lz_code < 56200
+--			nam.demog_eas.lz_code < 56800
 --			)
 		) AS g
 --			(nam.demog_eas.lz_code >= 56200 AND nam.demog_eas.lz_code < 56250) OR
 --			(nam.demog_eas.lz_code >= 56300 AND nam.demog_eas.lz_code < 56350))
 	WHERE
 		ST_Intersects (g.the_geom, f.the_geom)
-
---	UNION SELECT
+	AND
+		g.lz_code = nam.tbl_outcomes.lz_code
+	AND
+		hazard = 'Affected'
 
 ;
 
 
-SELECT DISTINCT
+-- insert the data where the hazard is lighter
+SELECT 'Add in all the hazard data in the less-affected area'::text;
+
+INSERT INTO nam.eas_outcome_2016 (
+	the_geom,
 	ea_code,
 	region_cod,
 	constituen,
 	constitue1,
 	region_nam,
-	lz_code || ': ' || lz_abbrev || ' - ' || lz_name AS lz,
 	pop_size,
 	pop_curr,
-	round(pop_size * 0.4,0) AS pop_affected
+	hh_curr,
+	lz_code,
+	lz_name,
+	lz_abbrev,
+	hazard,
+	wg,
+	soc_sec,
+	pc_pop,
+	lhood_def,
+	surv_def
+	)
+	-- data comes from nested query combining SAs, SPI data, rural and urban livelihoods tables
+	SELECT
+		g.the_geom,
+		g.ea_code,
+		g.region_cod,
+		constituen,
+		constitue1,
+		region_nam,
+		g.pop_size,
+		g.pop_curr,
+		g.hh_curr,
+		g.lz_code,
+		g.lz_name,
+		lz_abbrev,
+		hazard,
+		wg,
+		soc_sec,
+		pc_pop,
+		lhood_def,
+		surv_def
+	FROM
+		nam.tbl_outcomes,
+		(
+		SELECT
+			the_geom
+		FROM
+			nam.buffer_20160515
+		) AS f,
+		(
+		SELECT
+			the_geom,
+			ea_code,
+			nam.demog_eas.region_cod,
+			constituen,
+			constitue1,
+			region_nam,
+			nam.demog_eas.pop_size,
+			nam.demog_eas.pop_size * pop_2016 / nam.tbl_pop_proj.pop_size AS pop_curr,
+			nam.demog_eas.hh_size * pop_2016 / nam.tbl_pop_proj.pop_size  AS hh_curr,
+			nam.demog_eas.lz_code AS lz_code,
+			h.lz_name,
+			h.lz_abbrev
+		FROM
+			nam.tbl_pop_proj,
+			nam.demog_eas,
+			(
+				SELECT lz_code, lz_name, lz_abbrev FROM nam.livezones
+			) AS h
+		WHERE
+			nam.demog_eas.lz_code = h.lz_code
+		AND
+			nam.demog_eas.lz_code < 56800
+		AND
+			nam.demog_eas.region_cod = nam.tbl_pop_proj.region_cod
+--		AND (
+--			nam.demog_eas.lz_code < 56800
+--			)
+		) AS g
+--			(nam.demog_eas.lz_code >= 56200 AND nam.demog_eas.lz_code < 56250) OR
+--			(nam.demog_eas.lz_code >= 56300 AND nam.demog_eas.lz_code < 56350))
+	WHERE
+		NOT (ST_Intersects (g.the_geom, f.the_geom))
+	AND
+		g.lz_code = nam.tbl_outcomes.lz_code
+	AND
+		hazard = 'Not affected'
+
+;
+
+COPY nam.eas_outcome_2016 TO '/Users/Charles/Documents/hea_analysis/namibia/2016.05/outcome.csv' WITH ( FORMAT CSV, DELIMITER ',' );
+
+SELECT count(gid) FROM nam.eas_outcome_2016; -- GROUP BY ea_code;
+
+
+SELECT DISTINCT
+	ea_code,
+--	region_cod,
+--	constituen,
+	constitue1,
+	region_nam,
+	lz_code  AS lz, --|| ': ' || lz_abbrev || ' - ' || lz_name AS lz,
+	hazard,
+	wg,
+	soc_sec,
+	pop_size,
+	pop_curr,
+	round(pop_curr * pc_pop * CAST( surv_def > 0.005 AS INTEGER), 0) AS pop_surv,
+	round(pop_curr * pc_pop * CAST( lhood_def > 0.005 AS INTEGER), 0) AS pop_lhood,
+	round(pop_curr * pc_pop * surv_def * 2100 / 3360.0 / 1000, 4) AS maize_eq,
+	round(hh_curr * pc_pop * lhood_def, 0) AS lhood_nad
 FROM
 	nam.eas_outcome_2016
 ORDER BY
-	ea_code
+	ea_code, lz, hazard, soc_sec, wg
 ;
