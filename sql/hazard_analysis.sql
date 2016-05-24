@@ -1,10 +1,26 @@
+-- Purpose: to construct a table of outcomes that can be mapped an from which
+-- total numbers of affected people and their deficits can be calculated.
+
+-- Indexes transaction: to speed up the the main insert query
+BEGIN;
+
 ﻿-- Remove old index
 DROP INDEX IF EXISTS nam.buffer_20160515_gidx;
+
 DROP INDEX IF EXISTS nam.demog_eas_gidx;
+
 -- Recreate it
 CREATE INDEX buffer_20160515_gidx ON nam.buffer_20160515 USING GIST(the_geom);
+
 CREATE INDEX demog_eas_gidx ON nam.demog_eas USING GIST(the_geom);
 
+-- Done.
+COMMIT;
+
+
+
+-- The main transaction. Create an output table and populate it with the analysis.
+BEGIN;
 
 -- Remove any old table of affected small areas
 DROP TABLE IF EXISTS nam.eas_outcome_2016;
@@ -223,6 +239,14 @@ INSERT INTO nam.eas_outcome_2016 (
 
 ;
 
+COMMIT;
+
+
+
+--Transaction to present the data in a file and on StdOut
+BEGIN;
+
+-- Output the table to a CSV file for spreadsheet input
 COPY (
 	SELECT
 		ea_code,
@@ -241,7 +265,8 @@ COPY (
 		round(pop_curr * pc_pop * surv_def * 2100 / 3360.0 / 1000, 4) AS maize_eq,
 		round(hh_curr * pc_pop * lhood_def, 0) AS lhood_nad
 	FROM
-		nam.eas_outcome_2016)
+		nam.eas_outcome_2016
+	)
 TO
 	'/Users/Charles/Documents/hea_analysis/namibia/2016.05/pop/outcome.csv'
 WITH (
@@ -256,7 +281,7 @@ SELECT DISTINCT
 --	constituen,
 	constitue1 AS constituency,
 	region_nam AS region,
-	lz_code  AS lz, --|| ': ' || lz_abbrev || ' - ' || lz_name AS lz,
+	lz_code || ': '  || lz_name || ' (' || lz_abbrev || ')' AS lz,
 	hazard,
 	wg,
 	soc_sec,
@@ -271,3 +296,5 @@ FROM
 ORDER BY
 	ea_code, lz, hazard, soc_sec, wg
 ;
+
+COMMIT;
