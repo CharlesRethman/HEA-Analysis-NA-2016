@@ -275,6 +275,54 @@ WITH (
 	)
 ;
 
+COPY (
+	SELECT
+			row_name[1] AS region,
+			row_name[2] AS constituency,
+			"56101: Kunene cattle and small stock (NAKCS)",
+			"56102: Omusati-Omaheke-Otjozondjupa cattle ranching (NACCR)",
+			"56103: Erongo-Kunene small stock and natural resources (NACSN)",
+			"56105: Southern communal small stock (NACSS)",
+			"56182: Central freehold cattle ranching (NAFCR)",
+			"56184: Southern freehold small stock (NAFSS)",
+			"56201: Northern border upland cereals and livestock (NAUCL)"
+			"56202: North-central upland cereals and non-farm income (NAUCI)",
+			"56203: Caprivi lowland maize and cattle (NALMC)"
+		FROM
+			crosstab('
+				SELECT
+						ARRAY[ region_nam::text, constitue1::text] AS row_name,
+						lz_code,
+						ROUND(SUM(pop_curr * pc_pop * CAST( surv_def > 0.005 AS INTEGER)), 0) AS pop_surv
+					FROM
+						nam.eas_outcome_2016
+					GROUP BY
+						region_nam,
+						constitue1,
+						lz_code
+					ORDER BY
+						1,
+						2,
+						3
+				') AS ct(
+					row_name text[],
+					"56101: Kunene cattle and small stock (NAKCS)" NUMERIC,
+					"56102: Omusati-Omaheke-Otjozondjupa cattle ranching (NACCR)" NUMERIC,
+					"56103: Erongo-Kunene small stock and natural resources (NACSN)" NUMERIC,
+					"56105: Southern communal small stock (NACSS)" NUMERIC,
+					"56182: Central freehold cattle ranching (NAFCR)",
+					"56184: Southern freehold small stock (NAFSS)",
+					"56201: Northern border upland cereals and livestock (NAUCL)",
+					"56202: North-central upland cereals and non-farm income (NAUCI)",
+					"56203: Caprivi lowland maize and cattle (NALMC)"
+				)
+	)
+TO
+	'/Users/Charles/Documents/hea_analysis/namibia/2016.05/pop/outcome_xtab.csv'
+WITH (
+	FORMAT CSV, DELIMITER ',', HEADER TRUE
+	)
+;
 
 SELECT
 		ea_code,
@@ -283,8 +331,8 @@ SELECT
 		lz_code || ': '  || lz_name || ' (' || lz_abbrev || ')' AS lz,
 		hazard,
 		nam.eas_outcome_2016.wg,
-		soc_sec,
-		pop_size,
+		soc_sec AS s,
+--		pop_size,
 		pop_curr,
 		round(pop_curr * pc_pop * CAST( surv_def > 0.005 AS INTEGER), 0) AS pop_surv,
 		round(pop_curr * pc_pop * CAST( lhood_def > 0.005 AS INTEGER), 0) AS pop_lhood,
@@ -298,8 +346,63 @@ SELECT
 	ORDER BY
 		ea_code,
 		hazard,
-		soc_sec,
+		s,
 		f.ordnum
 ;
 
 COMMIT;
+
+
+COPY (
+	SELECT
+			row_name[1] AS region,
+			row_name[2] AS constituency,
+			"56101: Kunene cattle and small stock (NAKCS)",
+			"56102: Omusati-Omaheke-Otjozondjupa cattle ranching (NACCR)",
+			"56103: Erongo-Kunene small stock and natural resources (NACSN)",
+			"56105: Southern communal small stock (NACSS)",
+			"56182: Central freehold cattle ranching (NAFCR)",
+			"56184: Southern freehold small stock (NAFSS)",
+			"56201: Northern border upland cereals and livestock (NAUCL)"
+			"56202: North-central upland cereals and non-farm income (NAUCI)",
+			"56203: Caprivi lowland maize and cattle (NALMC)"
+		FROM
+			crosstab('
+				SELECT
+						ARRAY[ region_nam::text, constitue1::text] AS row_name,
+						lz_code,
+						ROUND(SUM(pop_curr * pc_pop * CAST( surv_def > 0.005 AS INTEGER)), 0) AS pop_surv
+					FROM
+						nam.eas_outcome_2016
+					GROUP BY
+						region_nam,
+						constitue1,
+						lz_code
+					ORDER BY
+						1,
+						2,
+						3
+				') AS ct(
+					row_name text[],
+					"56101: Kunene cattle and small stock (NAKCS)" NUMERIC,
+					"56102: Omusati-Omaheke-Otjozondjupa cattle ranching (NACCR)" NUMERIC,
+					"56103: Erongo-Kunene small stock and natural resources (NACSN)" NUMERIC,
+					"56105: Southern communal small stock (NACSS)" NUMERIC,
+					"56182: Central freehold cattle ranching (NAFCR)",
+					"56184: Southern freehold small stock (NAFSS)",
+					"56201: Northern border upland cereals and livestock (NAUCL)",
+					"56202: North-central upland cereals and non-farm income (NAUCI)",
+					"56203: Caprivi lowland maize and cattle (NALMC)"
+				)
+	)
+TO
+	'/Users/Charles/Documents/hea_analysis/namibia/2016.05/pop/outcome_xtab.csv'
+WITH (
+	FORMAT CSV, DELIMITER ',', HEADER TRUE
+	)
+;
+
+/*SELECT
+		lz_code || ': '  || lz_name || ' (' || lz_abbrev || ')' AS lz,
+	FROM
+		nam.eas_outcome_2016;
