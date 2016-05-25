@@ -310,11 +310,11 @@ COPY (
 					"56102: Omusati-Omaheke-Otjozondjupa cattle ranching (NACCR)" NUMERIC,
 					"56103: Erongo-Kunene small stock and natural resources (NACSN)" NUMERIC,
 					"56105: Southern communal small stock (NACSS)" NUMERIC,
-					"56182: Central freehold cattle ranching (NAFCR)",
-					"56184: Southern freehold small stock (NAFSS)",
-					"56201: Northern border upland cereals and livestock (NAUCL)",
-					"56202: North-central upland cereals and non-farm income (NAUCI)",
-					"56203: Caprivi lowland maize and cattle (NALMC)"
+					"56182: Central freehold cattle ranching (NAFCR)" NUMERIC,
+					"56184: Southern freehold small stock (NAFSS)" NUMERIC,
+					"56201: Northern border upland cereals and livestock (NAUCL)" NUMERIC,
+					"56202: North-central upland cereals and non-farm income (NAUCI)" NUMERIC,
+					"56203: Caprivi lowland maize and cattle (NALMC)" NUMERIC
 				)
 	)
 TO
