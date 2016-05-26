@@ -16,11 +16,11 @@ Here is a bit of an explanation of the codes and the abbreviations:
 
 > Why keep the **NA** prefix on all the abbreviations?
 
-This harmonises the LZ names with other countries in the region. **NA** is Namibia's IS0-3660-2 national code so it uniquely identifies the LZ in the whole world (and noit just the region). A code like **EKSS** could exist in another country. By making the _LZ part_ (the _3rd_, _4th_ and _5th_ characters) of the abbreviation only three characters long makes it quick and easy to type -- important when you're transcribing tables and long lists of livelihood zones and their parameters. Abbreviations and code should very rarely change whereas the LZ name can change all the time or be written differently, such as **Omusati-Omaheke-Otjozundjupa cattle ranching** vs **Omusati, Omaheke & Otjozundjupa Cattle Ranching** (_note the differences!_). This doesn't matter, especially to computers, because they will only link things up on the LZ codes, not the LZ names.
+This harmonises the LZ names with other countries in the region. **NA** is Namibia's [IS0-3166-1 alpha 2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) national code so it uniquely identifies the LZ in the whole world (and noit just the region). A code like **EKSS** could exist in another country. By making the _LZ part_ (the _3rd_, _4th_ and _5th_ characters) of the abbreviation only three characters long makes it quick and easy to type -- important when you're transcribing tables and long lists of livelihood zones and their parameters. Abbreviations and code should very rarely change whereas the LZ name can change all the time or be written differently, such as **Omusati-Omaheke-Otjozundjupa cattle ranching** vs **Omusati, Omaheke & Otjozundjupa Cattle Ranching** (_note the differences!_). This doesn't matter, especially to computers, because they will only link things up on the LZ codes, not the LZ names.
 
 > Is the **56** in the number code they same idea as the **NA**?
 
-Yes. Before South Sudan's independence the most northerly part of Namibia was _56th_ from the north of the continent (it is now _57th_). However, this isn't really such a good choice of code. Better to use the ISO numeric code (**ISO 3663**)
+Yes. Before South Sudan's independence the most northerly part of Namibia was _56th_ from the north of the continent (it is now _57th_). However, this isn't really such a good choice of code, as it only works in Africa an gets messed up if new countries come into being. Better to use the ISO numeric code ([ISO 3166-1 numeric](https://en.wikipedia.org/wiki/ISO_3166-1_numeric))
 
 > Do the other numbers mean something?
 
