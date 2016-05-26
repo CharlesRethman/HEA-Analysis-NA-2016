@@ -12,3 +12,5 @@ Collection of folders:
 * `./prices`: data (mostly sourced from the NSA) and analysis of price time series for forecasting price problem specs.
 
 For instructions on how to use GitHub and Git with these spreadsheets, see `INSTRUCTIONS.md`.
+
+Please also see `lz_names_codes.md` for a discussion on the livelihood zones names and codes.
