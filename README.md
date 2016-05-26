@@ -11,8 +11,8 @@ Collection of folders:
 * [./prices](https://github.com/CharlesRethman/HEA-Analysis-NA-2016/tree/master/prices): data (mostly sourced from the NSA) and analysis of price time series for forecasting price problem specs.
 * [./reports](https://github.com/CharlesRethman/HEA-Analysis-NA-2016/tree/master/reports): The report and presentation
 * [./spreadsheets](https://github.com/CharlesRethman/HEA-Analysis-NA-2016/tree/master/spreadsheets): Baseline Storage Spreadsheets (BSSs) and Outcome Analysis Spreadsheets (OASs) used in the 2016 Outcome Forecast Analysis (_May 2016_);
-* [./sql](https://github.com/CharlesRethman/HEA-Analysis-NA-2016/tree/master/spreadsheets): The SQL files used to generate population data and carry out mapping functionality with Postgres/PostGIS.
-* 
+* [./sql](https://github.com/CharlesRethman/HEA-Analysis-NA-2016/tree/master/sql): The SQL files used to generate population data and carry out mapping functionality with Postgres/PostGIS.
+*
 For instructions on how to use GitHub and Git with these spreadsheets, see [INSTRUCTIONS.md](https://github.com/CharlesRethman/HEA-Analysis-NA-2016/blob/master/INSTRUCTIONS.md).
 
 Please also see [lz_names_codes.md](https://github.com/CharlesRethman/HEA-Analysis-NA-2016/blob/master/lz_names_codes.md) for a discussion on the livelihood zones names and codes.
