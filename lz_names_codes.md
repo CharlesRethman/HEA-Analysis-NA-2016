@@ -1,17 +1,21 @@
+## Proposal to Review Livelihood Zone Names and Abbreviation
 
+The names and abbreviation for livelihood zones in Nambia can be confusing. Often, the abbreviations for different zones are very similar (think **NACSS**, **NACSN** and **NACCR** or **NAUCI** and **NAUCL**) when in fact the zones they represent are very different. Also, some of the zone names can be adjusted, e.g. Caprivi Region is now called Zambezi Region and the zone with its name spans Kavango and Zambezi. Perhaps it si time to revisit these abbreviations and names. I do suggest, however, that the _numeric code_ (the one beginning with **56**) stays as it is; this is because the numeric code is what is used to link different data sets containing livelihoods information together.
+
+### Table of old and proposed livelihood zone names and abbreviations
 | Livelihood Zone Name | LZ Code | LZ Abbrev - Old | Proposed new LZ Name | Proposed new LZ Abbrev | Alternative |
 |:--------------------:|:-------:|:---------------:|:--------------------:|:----------------------:|:-----------:|
 | Omusati-Omaheke-Otjozondjupa Cattle Ranching | 56102   | NACCR        | Omaheke & Otjozondjupa Cattle Ranching | NAOCR | NAOOC |
 | Erongo-Kunene Small Stock and Natural Resources | 56103 |	NACSN | | NAEKS | |
 | Southern Communal Small Stock	| 56105 |	NACSS	|	| NASCS | |
-| Central Freehold Cattle Ranching | 56182 | NAFCR | | NACFC | |
+| Central Freehold Cattle Ranching | 56182 | NAFCR | | | |
 | Southern Freehold Small Stock	| 56184 | NAFSS	| | NASFS | |
 | Kunene Cattle and Small Stock | 56101 |	NAKCS | | | |
-| Caprivi Lowland Maize and Cattle | 56203 | NALMC | Northern Riverine Maize and Cattle | NARMC | |
+| Caprivi Lowland Maize and Cattle | 56203 | NALMC | Kavango-Zambezi Riverine Maize and Cattle | NAKZR | |
 | North-Central Upland Cereals and Non-Farm Income | 56202 | NAUCI | Northern Cereals and Non-Farm Income | NANCI | |
 | Northern Border Upland Cereals and Livestock | 56201 | NAUCL | Northern Upland Cereals and Livestock | NANUL | | |
 
-
+### Questions and Explanations
 Here is a bit of an explanation of the codes and the abbreviations:
 
 > Why keep the **NA** prefix on all the abbreviations?
