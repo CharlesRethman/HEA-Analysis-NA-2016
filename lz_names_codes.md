@@ -11,7 +11,7 @@ The names and abbreviation for livelihood zones in Nambia can be confusing. Ofte
 | Central Freehold Cattle Ranching | 56182 | NAFCR | | | |
 | Southern Freehold Small Stock	| 56184 | NAFSS	| | NASFS | |
 | Kunene Cattle and Small Stock | 56101 |	NAKCS | | | |
-| Caprivi Lowland Maize and Cattle | 56203 | NALMC | Kavango-Zambezi Riverine Maize and Cattle | NAKZR | |
+| Caprivi Lowland Maize and Cattle | 56203 | NALMC | Zambezi-Kavango Riverine Maize and Cattle | NAZKR | |
 | North-Central Upland Cereals and Non-Farm Income | 56202 | NAUCI | Northern Cereals and Non-Farm Income | NANCI | |
 | Northern Border Upland Cereals and Livestock | 56201 | NAUCL | Northern Upland Cereals and Livestock | NANUL | | |
 
