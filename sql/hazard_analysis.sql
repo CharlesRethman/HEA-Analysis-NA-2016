@@ -249,7 +249,7 @@ COPY (
 			constitue1 AS constituency,
 			lz_code || ': ' || lz_name || ' (' || lz_abbrev || ')' AS lz,
 			hazard,
-			nam.eas_outcome_2016.wg,
+			f.ordnum || ' '|| nam.eas_outcome_2016.wg AS wg,
 			soc_sec,
 			pop_size,
 			pop_curr,
@@ -292,18 +292,17 @@ COPY (
 			crosstab('
 				SELECT
 						ARRAY[ region_nam::text, constitue1::text] AS row_name,
-						lz_code,
+						lz_code || '': '' || lz_name || '' ('' || lz_abbrev || '')'' AS lz,
 						ROUND(SUM(pop_curr * pc_pop * CAST( surv_def > 0.005 AS INTEGER)), 0) AS pop_surv
 					FROM
 						nam.eas_outcome_2016
 					GROUP BY
 						region_nam,
 						constitue1,
-						lz_code
+						lz
 					ORDER BY
 						1,
-						2,
-						3
+						2
 				') AS ct(
 					row_name text[],
 					"56101: Kunene cattle and small stock (NAKCS)" NUMERIC,
@@ -323,7 +322,7 @@ WITH (
 	FORMAT CSV, DELIMITER ',', HEADER TRUE
 	)
 ;
-
+/*
 SELECT
 		ea_code,
 		region_nam AS region,
@@ -348,13 +347,13 @@ SELECT
 		hazard,
 		s,
 		f.ordnum
-;
+;*/
 
 COMMIT;
 
-
-COPY (
-	SELECT
+/*
+COPY (*/
+SELECT
 			row_name[1] AS region,
 			row_name[2] AS constituency,
 			"56101: Kunene cattle and small stock (NAKCS)",
@@ -388,21 +387,16 @@ COPY (
 					"56102: Omusati-Omaheke-Otjozondjupa cattle ranching (NACCR)" NUMERIC,
 					"56103: Erongo-Kunene small stock and natural resources (NACSN)" NUMERIC,
 					"56105: Southern communal small stock (NACSS)" NUMERIC,
-					"56182: Central freehold cattle ranching (NAFCR)",
-					"56184: Southern freehold small stock (NAFSS)",
-					"56201: Northern border upland cereals and livestock (NAUCL)",
-					"56202: North-central upland cereals and non-farm income (NAUCI)",
-					"56203: Caprivi lowland maize and cattle (NALMC)"
+					"56182: Central freehold cattle ranching (NAFCR)" NUMERIC,
+					"56184: Southern freehold small stock (NAFSS)" NUMERIC,
+					"56201: Northern border upland cereals and livestock (NAUCL)" NUMERIC,
+					"56202: North-central upland cereals and non-farm income (NAUCI)" NUMERIC,
+					"56203: Caprivi lowland maize and cattle (NALMC)" NUMERIC
 				)
-	)
+/*	)
 TO
 	'/Users/Charles/Documents/hea_analysis/namibia/2016.05/pop/outcome_xtab.csv'
 WITH (
 	FORMAT CSV, DELIMITER ',', HEADER TRUE
-	)
+	)*/
 ;
-
-/*SELECT
-		lz_code || ': '  || lz_name || ' (' || lz_abbrev || ')' AS lz,
-	FROM
-		nam.eas_outcome_2016;
