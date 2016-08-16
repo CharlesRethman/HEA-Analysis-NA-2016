@@ -1,5 +1,5 @@
 <!DOCTYPE qgis PUBLIC 'http://mrcc.com/qgis.dtd' 'SYSTEM'>
-<qgis projectname="" version="2.14.2-Essen">
+<qgis projectname="" version="2.14.3-Essen">
   <title></title>
   <layer-tree-group expanded="1" checked="Qt::PartiallyChecked" name="">
     <customproperties/>
@@ -56,10 +56,10 @@
   <mapcanvas>
     <units>meters</units>
     <extent>
-      <xmin>-1138010.94886460830457509</xmin>
-      <ymin>6495428.91263562254607677</ymin>
-      <xmax>2394068.486236990429461</xmax>
-      <ymax>8598876.03195521421730518</ymax>
+      <xmin>-2372556.80856202403083444</xmin>
+      <ymin>7070653.27778073959052563</ymin>
+      <xmax>1159522.62653957447037101</xmax>
+      <ymax>9174100.39710033126175404</ymax>
     </extent>
     <rotation>0</rotation>
     <projections>1</projections>
@@ -4246,6 +4246,7 @@ def my_form_open(dialog, layer, feature):
       <SingleCategoryDiagramRenderer diagramType="Pie">
         <DiagramCategory penColor="#000000" labelPlacementMethod="XHeight" penWidth="0" diagramOrientation="Up" minimumSize="0" barWidth="5" penAlpha="255" maxScaleDenominator="1e+08" backgroundColor="#ffffff" transparency="0" width="15" scaleDependency="Area" backgroundAlpha="255" angleOffset="1440" scaleBasedVisibility="0" enabled="0" height="15" sizeType="MM" minScaleDenominator="0">
           <fontProperties description=".SF NS Text,13,-1,5,50,0,0,0,0,0" style=""/>
+          <attribute field="" color="#000000" label=""/>
         </DiagramCategory>
       </SingleCategoryDiagramRenderer>
       <DiagramLayerSettings yPosColumn="-1" linePlacementFlags="10" placement="0" dist="0" xPosColumn="-1" priority="0" obstacle="0" zIndex="0" showAll="1"/>
@@ -5195,7 +5196,7 @@ def my_form_open(dialog, layer, feature):
     </maplayer>
     <maplayer minimumScale="-4.65661e-10" maximumScale="1e+08" simplifyDrawingHints="1" minLabelScale="0" maxLabelScale="1e+08" simplifyDrawingTol="1" geometry="Polygon" simplifyMaxScale="1" type="vector" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" scaleBasedLabelVisibilityFlag="0">
       <id>ndvi_mask20160525185236239</id>
-      <datasource>./ndvi_mask.shp</datasource>
+      <datasource>../met_images/ndvi_mask.shp</datasource>
       <keywordList>
         <value></value>
       </keywordList>
